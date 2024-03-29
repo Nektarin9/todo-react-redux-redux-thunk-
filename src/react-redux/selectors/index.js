@@ -1,0 +1,5 @@
+export * from "./selectors-globalState/selector-filter"
+export * from "./selectors-globalState/selector-newTask"
+export * from "./selectors-globalState/selector-stateBtnSort"
+export * from "./selectors-modalWindowState/selector-inputChangeValue"
+export * from "./selectors-modalWindowState/selector-inputError"
