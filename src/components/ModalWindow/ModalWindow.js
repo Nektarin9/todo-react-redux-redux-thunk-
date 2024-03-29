@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectInputChangeValue, selectInputError } from '../../react-redux/selectors';
 import { actionInputChangeValue, actionInputError } from '../../react-redux/action';
 
-export function ModalWindow({ setModal, obj_target, refreshTasks, setRefreshTasks }) {
+export function ModalWindow({ setModal, obj_target }) {
 	const inputChangeValue = useSelector(selectInputChangeValue);
 	const inputError = useSelector(selectInputError);
 
@@ -14,8 +14,6 @@ export function ModalWindow({ setModal, obj_target, refreshTasks, setRefreshTask
 		if (inputChangeValue.trim() !== '') {
 			UseBtnChangeTask(
 				obj_target.attributes[0].textContent,
-				refreshTasks,
-				setRefreshTasks,
 				setModal,
 				inputChangeValue,
 				false,
@@ -53,8 +51,6 @@ export function ModalWindow({ setModal, obj_target, refreshTasks, setRefreshTask
 						onClick={() =>
 							UseBtnChangeTask(
 								obj_target.attributes[0].textContent,
-								refreshTasks,
-								setRefreshTasks,
 								setModal,
 								obj_target.innerHTML,
 								true,
@@ -68,8 +64,6 @@ export function ModalWindow({ setModal, obj_target, refreshTasks, setRefreshTask
 						onClick={() =>
 							UseBtnChangeTask(
 								obj_target.attributes[0].textContent,
-								refreshTasks,
-								setRefreshTasks,
 								setModal,
 								obj_target.innerHTML,
 								false,
@@ -83,8 +77,6 @@ export function ModalWindow({ setModal, obj_target, refreshTasks, setRefreshTask
 						onClick={() =>
 							UseBtnDeleteTask(
 								obj_target.attributes[0].textContent,
-								refreshTasks,
-								setRefreshTasks,
 								setModal,
 							)
 						}

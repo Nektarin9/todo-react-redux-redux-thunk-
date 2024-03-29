@@ -8,33 +8,30 @@ import {
 	actionFilter,
 	actionNewTask,
 	actionStateBtnSort,
+	actionTasks,
 } from './react-redux/action/index';
-import { selectStateBtnSort } from './react-redux/selectors/index.js';
+import {
+	selectStateBtnSort,
+	selectNewTask,
+	selectTask,
+} from './react-redux/selectors/index.js';
+
 let obj_target;
 
 export function App() {
-	const [refreshTasks, setRefreshTasks] = useState(false);
-	const [tasks, setTasks] = useState([]);
 	const [modal, setModal] = useState(false);
 
 	const inputRef = useRef(null);
 
 	const stateBtnSort = useSelector(selectStateBtnSort);
+	const newTask = useSelector(selectNewTask);
+	const tasks = useSelector(selectTask);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		fetch('http://localhost:3005/tasks')
-			.then((loadedData) => {
-				return loadedData.json();
-			})
-			.then((response) => {
-				setTasks(response);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}, [refreshTasks]);
+		dispatch(actionTasks());
+	}, [tasks]);
 
 	function filterTasks(event) {
 		const { target } = event;
@@ -45,13 +42,9 @@ export function App() {
 		}
 	}
 
-	const { btnAddTasks, errorNewTask } = UseAddTasks(
-		refreshTasks,
-		setRefreshTasks,
-		inputRef,
-	);
+	const { btnAddTasks } = UseAddTasks(inputRef);
 
-	function selectTask(event) {
+	function selectTargetTask(event) {
 		const { target } = event;
 		if (target.closest('div') && target.tagName !== 'SECTION') {
 			setModal(true);
@@ -66,8 +59,6 @@ export function App() {
 			{modal ? (
 				<ModalWindow
 					setModal={setModal}
-					refreshTasks={refreshTasks}
-					setRefreshTasks={setRefreshTasks}
 					obj_target={obj_target}
 				/>
 			) : (
@@ -81,19 +72,22 @@ export function App() {
 				type="text"
 			></input>
 			<div className={style.bnt_container}>
-				<button onClick={btnAddTasks} className={style.btn_task}>
+				<button
+					onClick={() => {
+						dispatch(actionNewTask(''));
+						btnAddTasks();
+					}}
+					className={style.btn_task}
+				>
 					Добавить
 				</button>
 				<input
+					value={newTask}
 					onChange={({ target }) => dispatch(actionNewTask(target.value))}
 					ref={inputRef}
 					type="text"
 					placeholder="Добавить задачу"
-					className={
-						errorNewTask
-							? `${style.input_add} ${style.input_add_error}`
-							: style.input_add
-					}
+					className={style.input_add}
 				></input>
 			</div>
 			<button
@@ -102,7 +96,7 @@ export function App() {
 			>
 				Сортировать
 			</button>
-			<section onClick={selectTask} className={style.container_tasks}>
+			<section onClick={selectTargetTask} className={style.container_tasks}>
 				<ShowTasks stateBtnSort={stateBtnSort} tasks={tasks} />
 			</section>
 		</>

@@ -2,8 +2,6 @@
 
 export function UseBtnChangeTask(
 	id,
-	refreshTasks,
-	setRefreshTasks,
 	setModal,
 	inputChangeValue,
 	taskСompleted,
@@ -18,7 +16,6 @@ export function UseBtnChangeTask(
 	})
 		.then((rawResponse) => rawResponse.json())
 		.then((response) => {
-			setRefreshTasks(!refreshTasks);
 			setModal(false);
 		})
 		.catch((error) => {

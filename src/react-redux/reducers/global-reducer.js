@@ -3,6 +3,7 @@ export const initialGlobaltState = {
 	newTask: '',
 	stateBtnSort: false,
 	modal: false,
+	tasks: [],
 };
 
 export function globalReducer(state = initialGlobaltState, ation) {
@@ -30,6 +31,12 @@ export function globalReducer(state = initialGlobaltState, ation) {
 			return {
 				...state,
 				modal: payload,
+			};
+		}
+		case 'tasks': {
+			return {
+				...state,
+				tasks: payload,
 			};
 		}
 
