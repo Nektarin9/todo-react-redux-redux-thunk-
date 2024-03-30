@@ -1,3 +1,5 @@
+import { INPUT_ERROR, INPUT_CHANGE_VALUE } from '../constans-typeAction';
+
 const initialModalWindowState = {
 	inputChangeValue: '',
 	inputError: false,
@@ -5,14 +7,14 @@ const initialModalWindowState = {
 export function modalWindowReduser(state = initialModalWindowState, ation) {
 	const { type, payload } = ation;
 	switch (type) {
-		case 'inputError': {
+		case INPUT_ERROR: {
 			return {
 				...state,
 				inputError: payload,
 			};
 		}
 
-		case 'inputChangeValue': {
+		case INPUT_CHANGE_VALUE: {
 			return {
 				...state,
 				inputChangeValue: payload,

@@ -1,6 +1,8 @@
+import { FILTER } from "../constans-typeAction"
+
 export function actionFilter(str) {
 	return {
-		type: "filter",
+		type: FILTER,
 		payload: str
 	}
 }

@@ -22,18 +22,16 @@ let obj_target;
 
 export function App() {
 	const inputRef = useRef(null);
-
 	const stateBtnSort = useSelector(selectStateBtnSort);
 	const newTask = useSelector(selectNewTask);
 	const tasks = useSelector(selectTask);
-
 	const modal = useSelector(selectModal);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(actionTasks());
-	}, [tasks]);
+	});
 
 	function filterTasks(event) {
 		const { target } = event;

@@ -1,3 +1,5 @@
+import { FILTER, NEW_TASK, STATE_BTN_SORT, MODAL, TASKS } from '../constans-typeAction';
+
 export const initialGlobaltState = {
 	filter: '',
 	newTask: '',
@@ -9,31 +11,31 @@ export const initialGlobaltState = {
 export function globalReducer(state = initialGlobaltState, ation) {
 	const { type, payload } = ation;
 	switch (type) {
-		case 'filter': {
+		case FILTER: {
 			return {
 				...state,
 				filter: payload,
 			};
 		}
-		case 'newTask': {
+		case NEW_TASK: {
 			return {
 				...state,
 				newTask: payload,
 			};
 		}
-		case 'stateBtnSort': {
+		case STATE_BTN_SORT: {
 			return {
 				...state,
 				stateBtnSort: payload,
 			};
 		}
-		case 'modal': {
+		case MODAL: {
 			return {
 				...state,
 				modal: payload,
 			};
 		}
-		case 'tasks': {
+		case TASKS: {
 			return {
 				...state,
 				tasks: payload,

@@ -1,6 +1,7 @@
+import { INPUT_ERROR } from "../constans-typeAction"
 export function actionInputError(state) {
 	return {
-		type: "inputError",
+		type: INPUT_ERROR,
 		payload: state
 	}
 }

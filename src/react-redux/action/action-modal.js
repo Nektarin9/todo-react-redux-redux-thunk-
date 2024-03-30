@@ -1,7 +1,8 @@
 
+import { MODAL } from "../constans-typeAction"
 export function actionModal(state) {
 	return {
-		type: "modal",
+		type: MODAL,
 		payload: state
 	}
 }

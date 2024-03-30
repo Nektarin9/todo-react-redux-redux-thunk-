@@ -20,6 +20,8 @@ export function ModalWindow({ obj_target }) {
 				inputChangeValue,
 				false,
 			);
+			dispatch(actionInputChangeValue(''));
+			dispatch(actionInputError(false));
 		} else {
 			dispatch(actionInputError(true));
 		}
@@ -27,16 +29,23 @@ export function ModalWindow({ obj_target }) {
 
 	return (
 		<section className={style.background_modal}>
-			<span onClick={() => dispatch(actionModal(false))} className={style.close}>
+			<span
+				onClick={() => {
+					dispatch(actionInputError(false));
+					dispatch(actionModal(false));
+				}}
+				className={style.close}
+			>
 				Закрыть
 			</span>
 			<div className={style.modal_container}>
 				<div className={style.task}>{obj_target.innerHTML}</div>
 				<div className={style.bnt_container}>
 					<input
-						onChange={({ target }) =>
-							dispatch(actionInputChangeValue(target.value))
-						}
+						onChange={({ target }) => {
+							dispatch(actionInputChangeValue(target.value));
+							dispatch(actionInputError(false));
+						}}
 						placeholder="Изменить задачу"
 						type="text"
 						className={
@@ -52,6 +61,7 @@ export function ModalWindow({ obj_target }) {
 						className={style.btn_task_completed}
 						onClick={() => {
 							dispatch(actionModal(false));
+							dispatch(actionInputError(false));
 							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
 								obj_target.innerHTML,
@@ -65,6 +75,7 @@ export function ModalWindow({ obj_target }) {
 						className={style.btn_task_completed_false}
 						onClick={() => {
 							dispatch(actionModal(false));
+							dispatch(actionInputError(false));
 							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
 								obj_target.innerHTML,
@@ -78,6 +89,7 @@ export function ModalWindow({ obj_target }) {
 					<button
 						onClick={() => {
 							dispatch(actionModal(false));
+							dispatch(actionInputError(false));
 							fetchDeleteTask(obj_target.attributes[0].textContent);
 						}}
 						className={style.btn_task_del}
