@@ -1,4 +1,4 @@
-export function fetchBtnAddTask(newTask) {
+export function fetchAddTask(newTask) {
 	fetch('http://localhost:3005/tasks', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json;charset=utf-8' },

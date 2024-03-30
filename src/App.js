@@ -1,7 +1,7 @@
 import style from './App.module.css';
 import React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import { UseAddTasks } from './hooks/UseBtnAddTask.js';
+import { useEffect, useRef } from 'react';
+import { fetchAddTask } from './API/fetchAddTask.js';
 import { ModalWindow, ShowTasks } from './components/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,23 +9,25 @@ import {
 	actionNewTask,
 	actionStateBtnSort,
 	actionTasks,
+	actionModal,
 } from './react-redux/action/index';
 import {
 	selectStateBtnSort,
 	selectNewTask,
 	selectTask,
+	selectModal,
 } from './react-redux/selectors/index.js';
 
 let obj_target;
 
 export function App() {
-	const [modal, setModal] = useState(false);
-
 	const inputRef = useRef(null);
 
 	const stateBtnSort = useSelector(selectStateBtnSort);
 	const newTask = useSelector(selectNewTask);
 	const tasks = useSelector(selectTask);
+
+	const modal = useSelector(selectModal);
 
 	const dispatch = useDispatch();
 
@@ -42,28 +44,25 @@ export function App() {
 		}
 	}
 
-	const { btnAddTasks } = UseAddTasks(inputRef);
-
 	function selectTargetTask(event) {
 		const { target } = event;
 		if (target.closest('div') && target.tagName !== 'SECTION') {
-			setModal(true);
+			dispatch(actionModal(true));
 			obj_target = target;
 		} else {
-			setModal(false);
+			dispatch(actionModal(false));
 		}
 	}
-
+	function btnAddTasks(inputRef, newTask) {
+		if (newTask.trim()) {
+			fetchAddTask(newTask);
+		} else {
+			inputRef.current.focus();
+		}
+	}
 	return (
 		<>
-			{modal ? (
-				<ModalWindow
-					setModal={setModal}
-					obj_target={obj_target}
-				/>
-			) : (
-				<></>
-			)}
+			{modal ? <ModalWindow obj_target={obj_target} /> : <></>}
 			<h1>Список задач</h1>
 			<input
 				onChange={filterTasks}
@@ -75,7 +74,7 @@ export function App() {
 				<button
 					onClick={() => {
 						dispatch(actionNewTask(''));
-						btnAddTasks();
+						btnAddTasks(inputRef, newTask);
 					}}
 					className={style.btn_task}
 				>

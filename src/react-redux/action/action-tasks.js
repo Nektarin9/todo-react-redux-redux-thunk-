@@ -1,4 +1,4 @@
-import { fetchTasks } from '../../hooks/API/fetchTasks';
+import { fetchTasks } from '../../API/fetchTasks';
 
 export const actionTasks = () => (dispatch) =>
 	fetchTasks().then((tasksData) => {

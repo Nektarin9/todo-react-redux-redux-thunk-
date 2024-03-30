@@ -39,7 +39,6 @@ export function globalReducer(state = initialGlobaltState, ation) {
 				tasks: payload,
 			};
 		}
-
 		default:
 			return state;
 	}

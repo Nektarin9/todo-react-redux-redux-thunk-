@@ -1,20 +1,22 @@
 import style from './ModalWindow.module.css';
-import { UseBtnDeleteTask } from '../../hooks/UseBtnDeleteTask';
-import { UseBtnChangeTask } from '../../hooks/UseBtnChangeTask';
+import { fetchBtnChangeTask, fetchDeleteTask } from '../../API';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectInputChangeValue, selectInputError } from '../../react-redux/selectors';
-import { actionInputChangeValue, actionInputError } from '../../react-redux/action';
+import {
+	actionInputChangeValue,
+	actionInputError,
+	actionModal,
+} from '../../react-redux/action';
 
-export function ModalWindow({ setModal, obj_target }) {
+export function ModalWindow({ obj_target }) {
 	const inputChangeValue = useSelector(selectInputChangeValue);
 	const inputError = useSelector(selectInputError);
-
 	const dispatch = useDispatch();
 	function changeTask() {
 		if (inputChangeValue.trim() !== '') {
-			UseBtnChangeTask(
+			dispatch(actionModal(false));
+			fetchBtnChangeTask(
 				obj_target.attributes[0].textContent,
-				setModal,
 				inputChangeValue,
 				false,
 			);
@@ -25,7 +27,7 @@ export function ModalWindow({ setModal, obj_target }) {
 
 	return (
 		<section className={style.background_modal}>
-			<span onClick={() => setModal(false)} className={style.close}>
+			<span onClick={() => dispatch(actionModal(false))} className={style.close}>
 				Закрыть
 			</span>
 			<div className={style.modal_container}>
@@ -48,38 +50,36 @@ export function ModalWindow({ setModal, obj_target }) {
 					</button>
 					<button
 						className={style.btn_task_completed}
-						onClick={() =>
-							UseBtnChangeTask(
+						onClick={() => {
+							dispatch(actionModal(false));
+							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
-								setModal,
 								obj_target.innerHTML,
 								true,
-							)
-						}
+							);
+						}}
 					>
 						Выполнено
 					</button>
 					<button
 						className={style.btn_task_completed_false}
-						onClick={() =>
-							UseBtnChangeTask(
+						onClick={() => {
+							dispatch(actionModal(false));
+							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
-								setModal,
 								obj_target.innerHTML,
 								false,
-							)
-						}
+							);
+						}}
 					>
 						Не выполнено
 					</button>
 
 					<button
-						onClick={() =>
-							UseBtnDeleteTask(
-								obj_target.attributes[0].textContent,
-								setModal,
-							)
-						}
+						onClick={() => {
+							dispatch(actionModal(false));
+							fetchDeleteTask(obj_target.attributes[0].textContent);
+						}}
 						className={style.btn_task_del}
 					>
 						Удалить
