@@ -6,6 +6,7 @@ import {
 	actionInputChangeValue,
 	actionInputError,
 	actionModal,
+	actionLoading,
 } from '../../react-redux/action';
 
 export function ModalWindow({ obj_target }) {
@@ -45,6 +46,7 @@ export function ModalWindow({ obj_target }) {
 						onChange={({ target }) => {
 							dispatch(actionInputChangeValue(target.value));
 							dispatch(actionInputError(false));
+							dispatch(actionLoading());
 						}}
 						placeholder="Изменить задачу"
 						type="text"
@@ -54,7 +56,13 @@ export function ModalWindow({ obj_target }) {
 								: style.input_change
 						}
 					></input>
-					<button onClick={changeTask} className={style.btn_task}>
+					<button
+						onClick={() => {
+							changeTask();
+							dispatch(actionLoading());
+						}}
+						className={style.btn_task}
+					>
 						Изменить
 					</button>
 					<button
@@ -62,6 +70,7 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
+							dispatch(actionLoading())
 							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
 								obj_target.innerHTML,
@@ -76,6 +85,7 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
+							dispatch(actionLoading())
 							fetchBtnChangeTask(
 								obj_target.attributes[0].textContent,
 								obj_target.innerHTML,
@@ -90,6 +100,7 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
+							dispatch(actionLoading())
 							fetchDeleteTask(obj_target.attributes[0].textContent);
 						}}
 						className={style.btn_task_del}

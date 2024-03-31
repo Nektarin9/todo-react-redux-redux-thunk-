@@ -26,12 +26,12 @@ export function App() {
 	const newTask = useSelector(selectNewTask);
 	const tasks = useSelector(selectTask);
 	const modal = useSelector(selectModal);
-
+	const isLoading = useSelector((state)=> state.globalState.isLoading);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(actionTasks());
-	});
+	}, [isLoading]);
 
 	function filterTasks(event) {
 		const { target } = event;

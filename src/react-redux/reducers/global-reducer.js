@@ -1,4 +1,4 @@
-import { FILTER, NEW_TASK, STATE_BTN_SORT, MODAL, TASKS } from '../constans-typeAction';
+import { FILTER, NEW_TASK, STATE_BTN_SORT, MODAL, TASKS, IS_LOADING } from '../constans-typeAction';
 
 export const initialGlobaltState = {
 	filter: '',
@@ -6,6 +6,7 @@ export const initialGlobaltState = {
 	stateBtnSort: false,
 	modal: false,
 	tasks: [],
+	isLoading: true
 };
 
 export function globalReducer(state = initialGlobaltState, ation) {
@@ -15,18 +16,21 @@ export function globalReducer(state = initialGlobaltState, ation) {
 			return {
 				...state,
 				filter: payload,
+				isLoading: !state.isLoading
 			};
 		}
 		case NEW_TASK: {
 			return {
 				...state,
 				newTask: payload,
+				isLoading: !state.isLoading
 			};
 		}
 		case STATE_BTN_SORT: {
 			return {
 				...state,
 				stateBtnSort: payload,
+				isLoading: !state.isLoading
 			};
 		}
 		case MODAL: {
@@ -39,6 +43,12 @@ export function globalReducer(state = initialGlobaltState, ation) {
 			return {
 				...state,
 				tasks: payload,
+			};
+		}
+		case IS_LOADING: {
+			return {
+				...state,
+				isLoading: !state.isLoading
 			};
 		}
 		default:
