@@ -1,8 +1,8 @@
-import style from './showTasks.module.css';
+import style from './ListTasks.module.css';
 import { useSelector } from 'react-redux';
 import { selectFilter } from '../../react-redux/selectors';
 
-export function ShowTasks({ tasks, stateBtnSort }) {
+export function ListTasks({ tasks, stateBtnSort }) {
 	let filter = useSelector(selectFilter);
 	let array = [];
 	let sortArray = [...tasks];

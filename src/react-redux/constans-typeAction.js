@@ -3,7 +3,10 @@ export const NEW_TASK = 'NEW_TASK';
 export const STATE_BTN_SORT = 'STATE_BTN_SORT';
 export const MODAL = 'MODAL';
 export const TASKS = 'TASKS';
-export const IS_LOADING = "IS_LOADING"
-
+export const IS_LOADING = 'IS_LOADING';
+export const ADD_TASK = 'ADD_TASK';
+export const CURRENT_TASK_ID = 'SET_CURRENT_TASK_ID';
+export const CHANGE_TASK = 'CHANGE_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
 export const INPUT_ERROR = 'INPUT_ERROR';
 export const INPUT_CHANGE_VALUE = 'INPUT_CHANGE_VALUE';

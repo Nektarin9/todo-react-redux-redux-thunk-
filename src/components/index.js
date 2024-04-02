@@ -1,2 +1,2 @@
-export * from "./ModalWindow/ModalWindow"
-export * from "./ShowTasks/ShowTasks"
+export * from './ModalTask/ModalTask ';
+export * from './ListTasks/ListTasks';

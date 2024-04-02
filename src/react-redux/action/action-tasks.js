@@ -5,5 +5,5 @@ export const actionTasks = () => (dispatch) =>
 		dispatch({
 			type: TASKS,
 			payload: tasksData,
-		});
+		})
 	});

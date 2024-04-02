@@ -1,8 +1,7 @@
 import style from './App.module.css';
 import React from 'react';
 import { useEffect, useRef } from 'react';
-import { fetchAddTask } from './API/fetchAddTask.js';
-import { ModalWindow, ShowTasks } from './components/index.js';
+import { ModalTask, ListTasks } from './components/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	actionFilter,
@@ -10,15 +9,16 @@ import {
 	actionStateBtnSort,
 	actionTasks,
 	actionModal,
-} from './react-redux/action/index';
+	actionCreateTaskAsync,
+	actionTaskId,
+} from './react-redux/action';
 import {
 	selectStateBtnSort,
 	selectNewTask,
 	selectTask,
 	selectModal,
-} from './react-redux/selectors/index.js';
-
-let obj_target;
+	selectStatusLoading,
+} from './react-redux/selectors';
 
 export function App() {
 	const inputRef = useRef(null);
@@ -26,7 +26,7 @@ export function App() {
 	const newTask = useSelector(selectNewTask);
 	const tasks = useSelector(selectTask);
 	const modal = useSelector(selectModal);
-	const isLoading = useSelector((state)=> state.globalState.isLoading);
+	const isLoading = useSelector(selectStatusLoading);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -42,25 +42,16 @@ export function App() {
 		}
 	}
 
-	function selectTargetTask(event) {
-		const { target } = event;
-		if (target.closest('div') && target.tagName !== 'SECTION') {
-			dispatch(actionModal(true));
-			obj_target = target;
-		} else {
-			dispatch(actionModal(false));
-		}
-	}
 	function btnAddTasks(inputRef, newTask) {
 		if (newTask.trim()) {
-			fetchAddTask(newTask);
+			dispatch(actionCreateTaskAsync(newTask));
 		} else {
 			inputRef.current.focus();
 		}
 	}
 	return (
 		<>
-			{modal ? <ModalWindow obj_target={obj_target} /> : <></>}
+			{modal && <ModalTask />}
 			<h1>Список задач</h1>
 			<input
 				onChange={filterTasks}
@@ -93,8 +84,16 @@ export function App() {
 			>
 				Сортировать
 			</button>
-			<section onClick={selectTargetTask} className={style.container_tasks}>
-				<ShowTasks stateBtnSort={stateBtnSort} tasks={tasks} />
+			<section
+				onClick={({ target }) => {
+					if (target.closest('div') && target.tagName !== 'SECTION') {
+						dispatch(actionModal(true));
+						dispatch(actionTaskId(target));
+					}
+				}}
+				className={style.container_tasks}
+			>
+				<ListTasks stateBtnSort={stateBtnSort} tasks={tasks} />
 			</section>
 		</>
 	);

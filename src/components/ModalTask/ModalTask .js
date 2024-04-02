@@ -1,25 +1,34 @@
-import style from './ModalWindow.module.css';
-import { fetchBtnChangeTask, fetchDeleteTask } from '../../API';
+import style from './ModalTask.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectInputChangeValue, selectInputError } from '../../react-redux/selectors';
+import {
+	selectInputChangeValue,
+	selectInputError,
+	selectTaskId,
+} from '../../react-redux/selectors';
 import {
 	actionInputChangeValue,
 	actionInputError,
 	actionModal,
 	actionLoading,
+	actionChangeTaskAsync,
+	actionDeleteTaskAsync,
 } from '../../react-redux/action';
 
-export function ModalWindow({ obj_target }) {
+export function ModalTask() {
 	const inputChangeValue = useSelector(selectInputChangeValue);
 	const inputError = useSelector(selectInputError);
+	const task = useSelector(selectTaskId);
+
 	const dispatch = useDispatch();
 	function changeTask() {
 		if (inputChangeValue.trim() !== '') {
 			dispatch(actionModal(false));
-			fetchBtnChangeTask(
-				obj_target.attributes[0].textContent,
-				inputChangeValue,
-				false,
+			dispatch(
+				actionChangeTaskAsync(
+					task.attributes[0].textContent,
+					inputChangeValue,
+					false,
+				),
 			);
 			dispatch(actionInputChangeValue(''));
 			dispatch(actionInputError(false));
@@ -40,7 +49,7 @@ export function ModalWindow({ obj_target }) {
 				Закрыть
 			</span>
 			<div className={style.modal_container}>
-				<div className={style.task}>{obj_target.innerHTML}</div>
+				<div className={style.task}>{task.innerHTML}</div>
 				<div className={style.bnt_container}>
 					<input
 						onChange={({ target }) => {
@@ -70,11 +79,13 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading())
-							fetchBtnChangeTask(
-								obj_target.attributes[0].textContent,
-								obj_target.innerHTML,
-								true,
+							dispatch(actionLoading());
+							dispatch(
+								actionChangeTaskAsync(
+									task.attributes[0].textContent,
+									task.innerHTML,
+									true,
+								),
 							);
 						}}
 					>
@@ -85,11 +96,13 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading())
-							fetchBtnChangeTask(
-								obj_target.attributes[0].textContent,
-								obj_target.innerHTML,
-								false,
+							dispatch(actionLoading());
+							dispatch(
+								actionChangeTaskAsync(
+									task.attributes[0].textContent,
+									task.innerHTML,
+									false,
+								),
 							);
 						}}
 					>
@@ -100,8 +113,10 @@ export function ModalWindow({ obj_target }) {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading())
-							fetchDeleteTask(obj_target.attributes[0].textContent);
+							dispatch(actionLoading());
+							dispatch(
+								actionDeleteTaskAsync(task.attributes[0].textContent),
+							);
 						}}
 						className={style.btn_task_del}
 					>
