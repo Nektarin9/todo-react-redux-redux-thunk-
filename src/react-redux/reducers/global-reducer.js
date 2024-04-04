@@ -30,7 +30,6 @@ export function globalReducer(state = initialGlobaltState, action) {
 			return {
 				...state,
 				filter: payload,
-				isLoading: !state.isLoading,
 			};
 		}
 		case NEW_TASK: {
