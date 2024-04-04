@@ -3,6 +3,7 @@ export function fetchTasks() {
 		.then((loadedData) => {
 			return loadedData.json();
 		})
+		.then(result => result)
 		.catch((error) => {
 			console.error(error);
 		});

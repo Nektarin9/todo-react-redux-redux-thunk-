@@ -6,5 +6,8 @@ export function fetchAddTask(newTask) {
 			title: newTask,
 			completed: false,
 		}),
-	}).catch((error) => console.error(error));
+	})
+	.then(response => response.json())
+	.then(result => result)
+	.catch((error) => console.error(error));
 }

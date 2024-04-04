@@ -5,8 +5,8 @@ const initialModalWindowState = {
 	inputError: false,
 
 };
-export function modalWindowReduser(state = initialModalWindowState, ation) {
-	const { type, payload } = ation;
+export function modalWindowReduser(state = initialModalWindowState, action) {
+	const { type, payload } = action;
 	switch (type) {
 		case INPUT_ERROR: {
 			return {

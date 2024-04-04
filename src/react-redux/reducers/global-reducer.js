@@ -4,8 +4,12 @@ import {
 	STATE_BTN_SORT,
 	MODAL,
 	TASKS,
-	IS_LOADING,
-
+	SET_LOADING_END,
+	SET_LOADING_START,
+	ADD_TASK,
+	DELETE_TASK,
+	CHANGE_TASK,
+	CURRENT_TASK_ID,
 } from '../constans-typeAction';
 
 export const initialGlobaltState = {
@@ -15,11 +19,12 @@ export const initialGlobaltState = {
 	modal: false,
 	tasks: [],
 	isLoading: true,
-
+	taskId: null,
 };
 
-export function globalReducer(state = initialGlobaltState, ation) {
-	const { type, payload } = ation;
+export function globalReducer(state = initialGlobaltState, action) {
+	const { type, payload } = action;
+
 	switch (type) {
 		case FILTER: {
 			return {
@@ -32,14 +37,12 @@ export function globalReducer(state = initialGlobaltState, ation) {
 			return {
 				...state,
 				newTask: payload,
-				isLoading: !state.isLoading,
 			};
 		}
 		case STATE_BTN_SORT: {
 			return {
 				...state,
 				stateBtnSort: payload,
-				isLoading: !state.isLoading,
 			};
 		}
 		case MODAL: {
@@ -54,14 +57,52 @@ export function globalReducer(state = initialGlobaltState, ation) {
 				tasks: payload,
 			};
 		}
-		case IS_LOADING: {
+
+		case ADD_TASK: {
 			return {
 				...state,
-				isLoading: !state.isLoading,
+				tasks: [...state.tasks, payload],
+			};
+		}
+		case DELETE_TASK: {
+			return {
+				...state,
+				tasks: state.tasks.filter((task) => task.id !== payload),
 			};
 		}
 
-
+		case CHANGE_TASK: {
+			const copyTasks = [...state.tasks];
+			const idTask = copyTasks.findIndex((task) => task.id === state.taskId);
+			return {
+				...state,
+				tasks: state.tasks.map((task, index) => {
+					if (index === idTask) {
+						task.title = payload.title;
+						task.completed = payload.completed;
+					}
+					return task;
+				}),
+			};
+		}
+		case SET_LOADING_START: {
+			return {
+				...state,
+				isLoading: true,
+			};
+		}
+		case SET_LOADING_END: {
+			return {
+				...state,
+				isLoading: false,
+			};
+		}
+		case CURRENT_TASK_ID: {
+			return {
+				...state,
+				taskId: payload,
+			};
+		}
 		default:
 			return state;
 	}

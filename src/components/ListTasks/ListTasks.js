@@ -2,7 +2,7 @@ import style from './ListTasks.module.css';
 import { useSelector } from 'react-redux';
 import { selectFilter } from '../../react-redux/selectors';
 
-export function ListTasks({ tasks, stateBtnSort }) {
+export function ListTasks({ tasks, stateBtnSort, handleTask }) {
 	let filter = useSelector(selectFilter);
 	let array = [];
 	let sortArray = [...tasks];
@@ -33,6 +33,7 @@ export function ListTasks({ tasks, stateBtnSort }) {
 	}
 	return array.map((item) => (
 		<div
+			onClick={() => handleTask(item.id)}
 			key={item.id}
 			id={item.id}
 			className={

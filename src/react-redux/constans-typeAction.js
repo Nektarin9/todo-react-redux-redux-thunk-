@@ -10,3 +10,5 @@ export const CHANGE_TASK = 'CHANGE_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const INPUT_ERROR = 'INPUT_ERROR';
 export const INPUT_CHANGE_VALUE = 'INPUT_CHANGE_VALUE';
+export const SET_LOADING_END = 'SET_LOADING_END';
+export const SET_LOADING_START = 'SET_LOADING_START';

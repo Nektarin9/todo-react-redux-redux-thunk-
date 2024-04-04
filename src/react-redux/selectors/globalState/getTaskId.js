@@ -1,3 +1,3 @@
 export function selectTaskId(state) {
-	return state.auxiLiaryStates.taskId
+	return state.globalState.taskId
 }

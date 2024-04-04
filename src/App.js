@@ -19,7 +19,6 @@ import {
 	selectModal,
 	selectStatusLoading,
 } from './react-redux/selectors';
-
 export function App() {
 	const inputRef = useRef(null);
 	const stateBtnSort = useSelector(selectStateBtnSort);
@@ -49,6 +48,12 @@ export function App() {
 			inputRef.current.focus();
 		}
 	}
+
+	const handleTask = (taskId) => {
+		dispatch(actionTaskId(taskId));
+		dispatch(actionModal(true));
+	};
+
 	return (
 		<>
 			{modal && <ModalTask />}
@@ -85,15 +90,9 @@ export function App() {
 				Сортировать
 			</button>
 			<section
-				onClick={({ target }) => {
-					if (target.closest('div') && target.tagName !== 'SECTION') {
-						dispatch(actionModal(true));
-						dispatch(actionTaskId(target));
-					}
-				}}
 				className={style.container_tasks}
 			>
-				<ListTasks stateBtnSort={stateBtnSort} tasks={tasks} />
+				<ListTasks handleTask={handleTask} stateBtnSort={stateBtnSort} tasks={tasks} />
 			</section>
 		</>
 	);

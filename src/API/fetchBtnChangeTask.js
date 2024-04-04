@@ -6,5 +6,8 @@ export function fetchBtnChangeTask(id, inputChangeValue, taskСompleted) {
 			title: inputChangeValue,
 			completed: taskСompleted,
 		}),
-	}).catch((error) => console.error(error));
+	})
+	.then(response => response.json())
+	.then(result => result)
+	.catch((error) => console.error(error));
 }

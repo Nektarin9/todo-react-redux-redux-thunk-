@@ -4,12 +4,12 @@ import {
 	selectInputChangeValue,
 	selectInputError,
 	selectTaskId,
+	getTaskByid
 } from '../../react-redux/selectors';
 import {
 	actionInputChangeValue,
 	actionInputError,
 	actionModal,
-	actionLoading,
 	actionChangeTaskAsync,
 	actionDeleteTaskAsync,
 } from '../../react-redux/action';
@@ -17,7 +17,9 @@ import {
 export function ModalTask() {
 	const inputChangeValue = useSelector(selectInputChangeValue);
 	const inputError = useSelector(selectInputError);
-	const task = useSelector(selectTaskId);
+
+	const taskId = useSelector(selectTaskId);
+	const task = useSelector(getTaskByid(taskId));
 
 	const dispatch = useDispatch();
 	function changeTask() {
@@ -25,7 +27,7 @@ export function ModalTask() {
 			dispatch(actionModal(false));
 			dispatch(
 				actionChangeTaskAsync(
-					task.attributes[0].textContent,
+					taskId,
 					inputChangeValue,
 					false,
 				),
@@ -49,13 +51,12 @@ export function ModalTask() {
 				Закрыть
 			</span>
 			<div className={style.modal_container}>
-				<div className={style.task}>{task.innerHTML}</div>
+				<div className={style.task}>{task.title}</div>
 				<div className={style.bnt_container}>
 					<input
 						onChange={({ target }) => {
 							dispatch(actionInputChangeValue(target.value));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading());
 						}}
 						placeholder="Изменить задачу"
 						type="text"
@@ -68,7 +69,6 @@ export function ModalTask() {
 					<button
 						onClick={() => {
 							changeTask();
-							dispatch(actionLoading());
 						}}
 						className={style.btn_task}
 					>
@@ -79,11 +79,10 @@ export function ModalTask() {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading());
 							dispatch(
 								actionChangeTaskAsync(
-									task.attributes[0].textContent,
-									task.innerHTML,
+									taskId,
+									task.title,
 									true,
 								),
 							);
@@ -96,11 +95,10 @@ export function ModalTask() {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading());
 							dispatch(
 								actionChangeTaskAsync(
-									task.attributes[0].textContent,
-									task.innerHTML,
+									taskId,
+									task.title,
 									false,
 								),
 							);
@@ -113,9 +111,8 @@ export function ModalTask() {
 						onClick={() => {
 							dispatch(actionModal(false));
 							dispatch(actionInputError(false));
-							dispatch(actionLoading());
 							dispatch(
-								actionDeleteTaskAsync(task.attributes[0].textContent),
+								actionDeleteTaskAsync(taskId),
 							);
 						}}
 						className={style.btn_task_del}
